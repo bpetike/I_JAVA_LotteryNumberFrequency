@@ -1,5 +1,7 @@
 package drawevent;
 
+import validator.Validator;
+
 import java.util.Arrays;
 
 /**
@@ -26,14 +28,27 @@ public class DrawEvent590 extends DrawEvent
     {
         String[] spitedLine = line.split(";");
         DrawEvent590 event = new DrawEvent590();
+        if ( !(Validator.checkYear(spitedLine[0], GameType.OTOS) &&
+                Validator.checkWeekNumber(spitedLine[1])) ) {
+            return null;
+        }
         event.setYear(Short.parseShort(spitedLine[0]));
         event.setWeekNumber(Byte.parseByte(spitedLine[1]));
         int lineLength = spitedLine.length;
         int j = 0;
         for (int i = lineLength - 5; i < lineLength; i++) {
-            event.numbers[j++] = Byte.parseByte(spitedLine[i]);
+            try
+            {
+                event.numbers[j++] = Byte.parseByte(spitedLine[i]);
+            } catch (NumberFormatException e)
+            {
+                break;
+            }
         }
-        return event;
+        if (Validator.checkNumbers(event.numbers, GameType.OTOS)) {
+            return event;
+        }
+        return null;
     }
 
     @Override

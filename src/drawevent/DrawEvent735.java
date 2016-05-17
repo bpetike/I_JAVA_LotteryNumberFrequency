@@ -1,5 +1,7 @@
 package drawevent;
 
+import validator.Validator;
+
 import java.util.Arrays;
 
 /**
@@ -32,18 +34,38 @@ public class DrawEvent735 extends DrawEvent
     {
         String[] spitedLine = line.split(";");
         DrawEvent735 event = new DrawEvent735();
+        if ( !(Validator.checkYear(spitedLine[0], GameType.SKANDI) &&
+                Validator.checkWeekNumber(spitedLine[1])) ) {
+            return null;
+        }
         event.setYear(Short.parseShort(spitedLine[0]));
         event.setWeekNumber(Byte.parseByte(spitedLine[1]));
         int lineLength = spitedLine.length;
         int j = 0;
         for (int i = lineLength - 14; i < lineLength - 7; i++) {
-            event.numbersDrawnByHand[j++] = Byte.parseByte(spitedLine[i]);
+            try
+            {
+                event.numbersDrawnByHand[j++] = Byte.parseByte(spitedLine[i]);
+            } catch (NumberFormatException e)
+            {
+                return null;
+            }
         }
         j = 0;
         for (int i = lineLength - 7; i < lineLength; i++) {
-            event.numbersDrawnByMachine[j++] = Byte.parseByte(spitedLine[i]);
+            try
+            {
+                event.numbersDrawnByMachine[j++] = Byte.parseByte(spitedLine[i]);
+            } catch (NumberFormatException e)
+            {
+                return null;
+            }
         }
-        return event;
+        if (Validator.checkNumbers(event.numbersDrawnByHand, GameType.SKANDI) &&
+                Validator.checkNumbers(event.numbersDrawnByMachine, GameType.SKANDI)) {
+            return event;
+        }
+        return null;
     }
 
     @Override

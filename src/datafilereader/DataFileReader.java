@@ -2,7 +2,11 @@ package datafilereader;
 
 import drawevent.GameType;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +16,8 @@ import java.util.List;
  */
 public class DataFileReader
 {
+    public static final String BASEPATH = new File("").getAbsolutePath();
+
     public static List<String> readLines(int year, GameType gameType) {
         String basePath = new File("").getAbsolutePath();
         String filePath = basePath + "\\data\\" + gameType.toString().toLowerCase() + String.valueOf(year) + ".csv";
@@ -25,14 +31,9 @@ public class DataFileReader
                 lines.add(line);
             }
             bReader.close();
-        } catch (FileNotFoundException e)
-        {
-            System.out.println("File not found.");
-            e.printStackTrace();
         } catch (IOException e)
         {
-            System.out.println("Something went wrong, can't read file.");
-            e.printStackTrace();
+            return null;
         }
         return lines;
     }

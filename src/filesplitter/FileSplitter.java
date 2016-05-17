@@ -1,5 +1,7 @@
 package filesplitter;
 
+import validator.Validator;
+
 import java.io.*;
 import java.util.Calendar;
 
@@ -23,8 +25,7 @@ public class FileSplitter
             bReader = new BufferedReader(new FileReader(rawDataFile));
             String line;
             String basePath = new File("").getAbsolutePath();
-            Calendar now = Calendar.getInstance();
-            int year = now.get(Calendar.YEAR);
+            int year = Validator.CURRENTYEAR;
             String yearString = String.valueOf(year);
             String targetFile;
             while ((line = bReader.readLine()) != null)
