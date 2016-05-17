@@ -21,10 +21,6 @@ public class DrawEvent645 extends DrawEvent
         return numbers;
     }
 
-    public void setNumbers(byte[] numbers)
-    {
-        this.numbers = numbers;
-    }
 
     @Override
     public DrawEvent parse(String line)

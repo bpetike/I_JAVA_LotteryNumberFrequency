@@ -21,13 +21,8 @@ public class DrawEvent590 extends DrawEvent
         return numbers;
     }
 
-    public void setNumbers(byte[] numbers)
-    {
-        this.numbers = numbers;
-    }
-
     @Override
-    public DrawEvent590 parse(String line)
+    public DrawEvent parse(String line)
     {
         String[] spitedLine = line.split(";");
         DrawEvent590 event = new DrawEvent590();

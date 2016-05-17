@@ -20,19 +20,17 @@ public abstract class DrawEvent
         return weekNumber;
     }
 
-    public void setWeekNumber(byte weekNumber)
-    {
+    public void setWeekNumber(byte weekNumber) {
         this.weekNumber = weekNumber;
+    }
+
+    public void setYear(short year) {
+        this.year = year;
     }
 
     public short getYear()
     {
         return year;
-    }
-
-    public void setYear(short year)
-    {
-        this.year = year;
     }
 
     public abstract DrawEvent parse(String line);
