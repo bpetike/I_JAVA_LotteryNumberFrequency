@@ -28,8 +28,7 @@ public class DrawEvent590 extends DrawEvent
     {
         String[] spitedLine = line.split(";");
         DrawEvent590 event = new DrawEvent590();
-        if ( !(Validator.checkYear(spitedLine[0], GameType.OTOS) &&
-                Validator.checkWeekNumber(spitedLine[1])) ) {
+        if (checkEventYearAndWeekNumber(spitedLine[0], spitedLine[1], GameType.OTOS)) {
             return null;
         }
         event.setYear(Short.parseShort(spitedLine[0]));
@@ -45,7 +44,7 @@ public class DrawEvent590 extends DrawEvent
                 break;
             }
         }
-        if (Validator.checkNumbers(event.numbers, GameType.OTOS)) {
+        if (chechEventNumbers(event.numbers)) {
             return event;
         }
         return null;
@@ -59,5 +58,10 @@ public class DrawEvent590 extends DrawEvent
         sb.append("Week number: ").append(getWeekNumber()).append('\n');
         sb.append("Drawn numbers: ").append(Arrays.toString(numbers));
         return sb.toString();
+    }
+
+    private boolean chechEventNumbers(byte[] numbers) {
+        return Validator.checkNumbers(numbers, GameType.OTOS) &&
+                Validator.checkForNoRepeat(numbers);
     }
 }

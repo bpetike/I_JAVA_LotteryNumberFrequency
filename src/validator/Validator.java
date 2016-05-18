@@ -3,6 +3,8 @@ package validator;
 import drawevent.GameType;
 
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by BontaPeter on 2016. 05. 17..
@@ -42,7 +44,19 @@ public class Validator
     public static boolean checkNumbers(byte[] numbers, GameType gameType) {
         int maxNumber = getMaxNumber(numbers);
         int minNumber = getMinNumber(numbers);
-        return minNumber > 0 && maxNumber <= gameType.getMaxNumber();
+        return minNumber >= 0 && maxNumber <= gameType.getMaxNumber() && numbers.length == gameType.getDrawnNumbers();
+    }
+
+    public static boolean checkForNoRepeat(byte[] numbers) {
+        Set<Byte> tempSet = new HashSet<>();
+        for (byte number : numbers)
+        {
+            if (tempSet.contains(number)) {
+                return false;
+            }
+            tempSet.add(number);
+        }
+        return true;
     }
 
     private static int getMaxNumber(byte[] numbers)

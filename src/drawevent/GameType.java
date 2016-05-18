@@ -6,17 +6,19 @@ package drawevent;
  */
 public enum GameType
 {
-    OTOS("5/90", 1957, 90),
-    HATOS("6/45", 1988, 45),
-    SKANDI("7/35", 1999, 35);
+    OTOS("5/90", 1957, 5, 90),
+    HATOS("6/45", 1988, 7, 45),
+    SKANDI("7/35", 1999, 7, 35);
 
     private String name;
     private int minYear;
+    private int drawnNumbers;
     private int maxNumber;
 
-    private GameType(String name, int minYear, int maxNumber) {
+    private GameType(String name, int minYear, int drawnNumbers, int maxNumber) {
         this.name = name;
         this.minYear = minYear;
+        this.drawnNumbers = drawnNumbers;
         this.maxNumber = maxNumber;
     }
 
@@ -38,5 +40,10 @@ public enum GameType
     public int getMaxNumber()
     {
         return maxNumber;
+    }
+
+    public int getDrawnNumbers()
+    {
+        return drawnNumbers;
     }
 }

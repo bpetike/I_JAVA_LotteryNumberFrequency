@@ -34,8 +34,7 @@ public class DrawEvent735 extends DrawEvent
     {
         String[] spitedLine = line.split(";");
         DrawEvent735 event = new DrawEvent735();
-        if ( !(Validator.checkYear(spitedLine[0], GameType.SKANDI) &&
-                Validator.checkWeekNumber(spitedLine[1])) ) {
+        if (checkEventYearAndWeekNumber(spitedLine[0], spitedLine[1], GameType.SKANDI)) {
             return null;
         }
         event.setYear(Short.parseShort(spitedLine[0]));
@@ -61,8 +60,7 @@ public class DrawEvent735 extends DrawEvent
                 return null;
             }
         }
-        if (Validator.checkNumbers(event.numbersDrawnByHand, GameType.SKANDI) &&
-                Validator.checkNumbers(event.numbersDrawnByMachine, GameType.SKANDI)) {
+        if (checkEventNumbers(event.numbersDrawnByHand, event.numbersDrawnByMachine)) {
             return event;
         }
         return null;
@@ -78,4 +76,12 @@ public class DrawEvent735 extends DrawEvent
         sb.append("Numbers drawn by machine: ").append(Arrays.toString(numbersDrawnByMachine));
         return sb.toString();
     }
+
+    private boolean checkEventNumbers(byte[] drawnByHand, byte[] drawnByMachine) {
+        return Validator.checkNumbers(drawnByHand, GameType.SKANDI) &&
+                Validator.checkNumbers(drawnByMachine, GameType.SKANDI) &&
+                Validator.checkForNoRepeat(drawnByHand) &&
+                Validator.checkForNoRepeat(drawnByMachine);
+    }
+
 }

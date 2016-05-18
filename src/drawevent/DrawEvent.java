@@ -1,5 +1,7 @@
 package drawevent;
 
+import validator.Validator;
+
 /**
  * Created by BontaPeter on 2016. 05. 17..
  * This is the abstract class of draw events.
@@ -34,4 +36,9 @@ public abstract class DrawEvent
     }
 
     public abstract DrawEvent parse(String line);
+
+    protected boolean checkEventYearAndWeekNumber(String year, String weekNumber, GameType gameType) {
+        return !(Validator.checkYear(year, gameType) &&
+                Validator.checkWeekNumber(weekNumber));
+    }
 }
