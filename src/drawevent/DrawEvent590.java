@@ -8,15 +8,25 @@ import java.util.Arrays;
  * Created by BontaPeter on 2016. 05. 17..
  * This class describes a draw event of 5/90 game type.
  */
-public class DrawEvent590 extends DrawEvent
+public class DrawEvent590 implements DrawEvent
 {
+    private short year;
+    private byte weekNumber;
     private byte[] numbers;
 
     public DrawEvent590() {
-        super();
         numbers = new byte[5];
     }
 
+    public short getYear()
+    {
+        return year;
+    }
+
+    public byte getWeekNumber()
+    {
+        return weekNumber;
+    }
 
     public byte[] getNumbers()
     {
@@ -24,44 +34,49 @@ public class DrawEvent590 extends DrawEvent
     }
 
     @Override
-    public DrawEvent parse(String line)
+    public void parse(String line)
     {
         String[] spitedLine = line.split(";");
-        DrawEvent590 event = new DrawEvent590();
         if (checkEventYearAndWeekNumber(spitedLine[0], spitedLine[1], GameType.OTOS)) {
-            return null;
+            return;
         }
-        event.setYear(Short.parseShort(spitedLine[0]));
-        event.setWeekNumber(Byte.parseByte(spitedLine[1]));
+        year = Short.parseShort(spitedLine[0]);
+        weekNumber = Byte.parseByte(spitedLine[1]);
         int lineLength = spitedLine.length;
         int j = 0;
         for (int i = lineLength - 5; i < lineLength; i++) {
             try
             {
-                event.numbers[j++] = Byte.parseByte(spitedLine[i]);
+                this.numbers[j++] = Byte.parseByte(spitedLine[i]);
             } catch (NumberFormatException e)
             {
                 break;
             }
         }
-        if (chechEventNumbers(event.numbers)) {
-            return event;
+        if (!checkEventNumbers(numbers)) {
+            numbers = null;
         }
-        return null;
     }
+
 
     @Override
     public String toString()
     {
         StringBuffer sb = new StringBuffer();
-        sb.append("Year: ").append(getYear()).append('\n');
-        sb.append("Week number: ").append(getWeekNumber()).append('\n');
+        sb.append("Year: ").append(year).append('\n');
+        sb.append("Week number: ").append(weekNumber).append('\n');
         sb.append("Drawn numbers: ").append(Arrays.toString(numbers));
         return sb.toString();
     }
 
-    private boolean chechEventNumbers(byte[] numbers) {
+    private boolean checkEventNumbers(byte[] numbers) {
         return Validator.checkNumbers(numbers, GameType.OTOS) &&
                 Validator.checkForNoRepeat(numbers);
+    }
+
+    private boolean checkEventYearAndWeekNumber(String year, String weekNumber, GameType gameType)
+    {
+        return !(Validator.checkYear(year, gameType) &&
+                Validator.checkWeekNumber(weekNumber));
     }
 }

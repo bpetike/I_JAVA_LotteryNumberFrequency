@@ -8,8 +8,10 @@ import java.util.Arrays;
  * Created by BontaPeter on 2016. 05. 17..
  * This class describes a draw event of 7/35 game type.
  */
-public class DrawEvent735 extends DrawEvent
+public class DrawEvent735 implements DrawEvent
 {
+    private short year;
+    private  byte weekNumber;
     private byte[] numbersDrawnByHand;
     private byte[] numbersDrawnByMachine;
 
@@ -17,6 +19,16 @@ public class DrawEvent735 extends DrawEvent
     {
         numbersDrawnByHand = new byte[7];
         numbersDrawnByMachine = new byte[7];
+    }
+
+    public short getYear()
+    {
+        return year;
+    }
+
+    public byte getWeekNumber()
+    {
+        return weekNumber;
     }
 
     public byte[] getNumbersDrawnByHand()
@@ -30,51 +42,56 @@ public class DrawEvent735 extends DrawEvent
     }
 
     @Override
-    public DrawEvent parse(String line)
+    public void parse(String line)
     {
         String[] spitedLine = line.split(";");
-        DrawEvent735 event = new DrawEvent735();
         if (checkEventYearAndWeekNumber(spitedLine[0], spitedLine[1], GameType.SKANDI)) {
-            return null;
+            return;
         }
-        event.setYear(Short.parseShort(spitedLine[0]));
-        event.setWeekNumber(Byte.parseByte(spitedLine[1]));
+        year = Short.parseShort(spitedLine[0]);
+        weekNumber = Byte.parseByte(spitedLine[1]);
         int lineLength = spitedLine.length;
         int j = 0;
         for (int i = lineLength - 14; i < lineLength - 7; i++) {
             try
             {
-                event.numbersDrawnByHand[j++] = Byte.parseByte(spitedLine[i]);
+                numbersDrawnByHand[j++] = Byte.parseByte(spitedLine[i]);
             } catch (NumberFormatException e)
             {
-                return null;
+                return;
             }
         }
         j = 0;
         for (int i = lineLength - 7; i < lineLength; i++) {
             try
             {
-                event.numbersDrawnByMachine[j++] = Byte.parseByte(spitedLine[i]);
+                numbersDrawnByMachine[j++] = Byte.parseByte(spitedLine[i]);
             } catch (NumberFormatException e)
             {
-                return null;
+                return;
             }
         }
-        if (checkEventNumbers(event.numbersDrawnByHand, event.numbersDrawnByMachine)) {
-            return event;
+        if (!checkEventNumbers(numbersDrawnByHand, numbersDrawnByMachine)) {
+            numbersDrawnByHand = null;
+            numbersDrawnByMachine = null;
         }
-        return null;
     }
 
     @Override
     public String toString()
     {
         StringBuffer sb = new StringBuffer();
-        sb.append("Year: ").append(getYear()).append('\n');
-        sb.append("Week number: ").append(getWeekNumber()).append('\n');
+        sb.append("Year: ").append(year).append('\n');
+        sb.append("Week number: ").append(weekNumber).append('\n');
         sb.append("Numbers drawn by hand: ").append(Arrays.toString(numbersDrawnByHand)).append('\n');
         sb.append("Numbers drawn by machine: ").append(Arrays.toString(numbersDrawnByMachine));
         return sb.toString();
+    }
+
+    private boolean checkEventYearAndWeekNumber(String year, String weekNumber, GameType gameType)
+    {
+        return !(Validator.checkYear(year, gameType) &&
+                Validator.checkWeekNumber(weekNumber));
     }
 
     private boolean checkEventNumbers(byte[] drawnByHand, byte[] drawnByMachine) {
