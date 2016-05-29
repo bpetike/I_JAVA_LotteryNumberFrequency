@@ -1,5 +1,6 @@
 package filesplitter;
 
+import datafilereader.DataFileReader;
 import validator.Validator;
 
 import java.io.*;
@@ -17,6 +18,7 @@ public class FileSplitter
 
     public void splitRawDataFile(String filePath)
     {
+        deleteExistingFiles(filePath);
         File rawDataFile = new File(filePath);
         BufferedReader bReader;
         BufferedWriter bWriter = null;
@@ -24,20 +26,19 @@ public class FileSplitter
         {
             bReader = new BufferedReader(new FileReader(rawDataFile));
             String line;
-            String basePath = new File("").getAbsolutePath();
             int year = Validator.CURRENTYEAR;
             String yearString = String.valueOf(year);
             String targetFile;
             while ((line = bReader.readLine()) != null)
             {
                 String[] splitedLine = line.split(";");
-                targetFile = basePath + "\\data\\" + getFileName(filePath) + yearString + ".csv";
+                targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(filePath) + yearString + ".csv";
                 if (splitedLine[0].equals(yearString)) {
                     writeLine(targetFile, line);
                 } else
                 {
-                    yearString = String.valueOf(year--);
-                    targetFile = basePath + "\\data\\" + getFileName(filePath) + yearString + ".csv";
+                    yearString = String.valueOf(--year);
+                    targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(filePath) + yearString + ".csv";
                     writeLine(targetFile, line);
                 }
             }
@@ -69,5 +70,23 @@ public class FileSplitter
         String fileName = file.getName();
         int fileNameLength = fileName.length();
         return fileName.substring(0, fileNameLength-4);
+    }
+
+    private void deleteExistingFiles(String filePath)
+    {
+        File path = new File(DataFileReader.BASEPATH + "\\data\\");
+        File[] files = path.listFiles();
+        String fileNamePrefix = getFileName(filePath);
+        if (files != null)
+        {
+            for (File file : files)
+            {
+                boolean result = false;
+                if (file.getName().matches(fileNamePrefix+"\\d+.*"))
+                {
+                    result = file.delete();
+                }
+            }
+        }
     }
 }

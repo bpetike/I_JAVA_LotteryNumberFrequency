@@ -6,4 +6,6 @@ package drawevent;
 public interface DrawEvent extends Comparable<DrawEvent>
 {
     public void parse(String line);
+    public byte getWeekNumber();
+    public byte[] getNumbers();
 }

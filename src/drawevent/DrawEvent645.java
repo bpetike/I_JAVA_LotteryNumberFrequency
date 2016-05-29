@@ -17,7 +17,6 @@ public class DrawEvent645 implements DrawEvent
 
     public DrawEvent645()
     {
-        super();
         numbers = new byte[7];
     }
 

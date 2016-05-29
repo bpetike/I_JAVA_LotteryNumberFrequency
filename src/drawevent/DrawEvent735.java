@@ -1,5 +1,6 @@
 package drawevent;
 
+import com.sun.deploy.util.ArrayUtil;
 import validator.Validator;
 
 import java.util.Arrays;
@@ -29,6 +30,17 @@ public class DrawEvent735 implements DrawEvent
     public byte getWeekNumber()
     {
         return weekNumber;
+    }
+
+    @Override
+    public byte[] getNumbers()
+    {
+        int aLen = numbersDrawnByHand.length;
+        int bLen = numbersDrawnByMachine.length;
+        byte[] numbers = new byte[aLen + bLen];
+        System.arraycopy(numbersDrawnByHand, 0, numbers, 0, aLen);
+        System.arraycopy(numbersDrawnByMachine, 0, numbers, aLen, bLen);
+        return numbers;
     }
 
     public byte[] getNumbersDrawnByHand()
