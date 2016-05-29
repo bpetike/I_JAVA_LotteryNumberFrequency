@@ -3,10 +3,11 @@ package drawevent;
 import datafilereader.DataFileReader;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by BontaPeter on 2016. 05. 17..
@@ -15,7 +16,7 @@ import java.util.List;
 public class DrawEventHandler
 {
     private List<DrawEvent> collectedEvents;
-    private HashMap<Byte, Integer> frequencyList;
+    private HashMap<Byte, List<Integer>> frequencyList;
     private DrawEventCreator eventCreator;
 
     public DrawEventHandler()
@@ -26,7 +27,7 @@ public class DrawEventHandler
 
     }
 
-    public HashMap<Byte, Integer> getFrequencyList()
+    public HashMap<Byte, List<Integer>> getFrequencyList()
     {
         return frequencyList;
     }
@@ -52,10 +53,21 @@ public class DrawEventHandler
         collectDrawEvents(year, gameType);
         if (collectedEvents != null && collectedEvents.size() > 0)
         {
-            for (DrawEvent event : collectedEvents)
-            {
-                System.out.println(event);
-                System.out.println(Arrays.toString(event.getNumbers()));
+            for (byte i = 1; i < gameType.getMaxNumber() + 1; i++) {
+                Set<Integer> temp = new HashSet<>();
+                for (DrawEvent event : collectedEvents)
+                {
+                    for (byte number : event.getNumbers())
+                    {
+                        if (i == number)
+                        {
+                            temp.add((int) event.getWeekNumber());
+                        }
+                    }
+                }
+                List<Integer> weeks = new ArrayList<>(temp);
+                Collections.sort(weeks);
+                frequencyList.put(i, weeks);
             }
         }
     }
