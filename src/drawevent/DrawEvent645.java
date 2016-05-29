@@ -3,6 +3,7 @@ package drawevent;
 import validator.Validator;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Created by BontaPeter on 2016. 05. 17..
@@ -87,4 +88,10 @@ public class DrawEvent645 implements DrawEvent
                 Validator.checkForNoRepeat(numbers);
     }
 
+    @Override
+    public int compareTo(DrawEvent o)
+    {
+        DrawEvent645 event = (DrawEvent645) o;
+        return this.weekNumber - event.getWeekNumber();
+    }
 }

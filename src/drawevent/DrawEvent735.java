@@ -101,4 +101,10 @@ public class DrawEvent735 implements DrawEvent
                 Validator.checkForNoRepeat(drawnByMachine);
     }
 
+    @Override
+    public int compareTo(DrawEvent o)
+    {
+        DrawEvent735 event = (DrawEvent735) o;
+        return this.weekNumber - event.getWeekNumber();
+    }
 }

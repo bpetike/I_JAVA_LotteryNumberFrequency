@@ -79,4 +79,11 @@ public class DrawEvent590 implements DrawEvent
         return !(Validator.checkYear(year, gameType) &&
                 Validator.checkWeekNumber(weekNumber));
     }
+
+    @Override
+    public int compareTo(DrawEvent o)
+    {
+        DrawEvent590 event = (DrawEvent590) o;
+        return this.weekNumber - event.getWeekNumber();
+    }
 }
