@@ -4,7 +4,6 @@ import datafilereader.DataFileReader;
 import validator.Validator;
 
 import java.io.*;
-import java.util.Calendar;
 
 /**
  * Created by BontaPeter on 2016. 05. 17..
@@ -16,10 +15,10 @@ public class FileSplitter
     public static final String EVENT645RAWDATAFILEPATH = "\\data\\hatos.csv";
     public static final String EVENT735RAWDATAFILEPATH = "\\data\\skandi.csv";
 
-    public void splitRawDataFile(String filePath)
+    public void splitRawDataFile(String rawFilePath)
     {
-        deleteExistingFiles(filePath);
-        File rawDataFile = new File(filePath);
+        deleteExistingDataFiles(rawFilePath);
+        File rawDataFile = new File(rawFilePath);
         BufferedReader bReader;
         BufferedWriter bWriter = null;
         try
@@ -32,13 +31,13 @@ public class FileSplitter
             while ((line = bReader.readLine()) != null)
             {
                 String[] splitedLine = line.split(";");
-                targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(filePath) + yearString + ".csv";
+                targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(rawFilePath) + yearString + ".csv";
                 if (splitedLine[0].equals(yearString)) {
                     writeLine(targetFile, line);
                 } else
                 {
                     yearString = String.valueOf(--year);
-                    targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(filePath) + yearString + ".csv";
+                    targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(rawFilePath) + yearString + ".csv";
                     writeLine(targetFile, line);
                 }
             }
@@ -72,7 +71,7 @@ public class FileSplitter
         return fileName.substring(0, fileNameLength-4);
     }
 
-    private void deleteExistingFiles(String filePath)
+    private void deleteExistingDataFiles(String filePath)
     {
         File path = new File(DataFileReader.BASEPATH + "\\data\\");
         File[] files = path.listFiles();

@@ -2,6 +2,7 @@ package updatechecker;
 
 
 import datafilereader.DataFileReader;
+import filesplitter.FileSplitter;
 import validator.Validator;
 
 import java.io.BufferedReader;
@@ -25,34 +26,49 @@ public class UpdateChecker
     public static final String EVENT645URL = "http://www.szerencsejatek.hu/xls/hatos.csv";
     public static final String EVENT735URL = "http://www.szerencsejatek.hu/xls/skandi.csv";
 
-    public boolean checkForUpdate(String fileURL, String filePath)
+    public boolean checkForUpdate(String fileURL, String rawfilePath)
     {
-        return !readFirstLineOnInternet(fileURL).equals(readFirstLineOnDisk(filePath));
+        return !readFirstLineOnInternet(fileURL).equals(readFirstLineOnDisk(rawfilePath));
     }
 
-    public void downloadUpdate(String fileURL) {
+    public void downloadUpdate(String fileURL, boolean rawFile) {
         try
         {
             URL url = new URL(fileURL);
             InputStream inStream = url.openStream();
             InputStreamReader iStReader = new InputStreamReader(inStream);
             BufferedReader bReader = new BufferedReader(iStReader);
-            bReader.mark(1);
-            String firstLine = bReader.readLine();
-            int beginValue = Integer.valueOf(firstLine.split(";")[1]);
-            boolean result;
             String targetFileName = getTargetFileName(fileURL);
             String path = DataFileReader.BASEPATH  + "\\data\\";
-            targetFileName = targetFileName.substring(0, targetFileName.length()-4) +
-                    String.valueOf(Validator.CURRENTYEAR) + ".csv";
-            File targetFile = new File(path + targetFileName);
-            result = targetFile.delete();
-            BufferedWriter bWriter = new BufferedWriter(new FileWriter(targetFile, true));
-            bReader.reset();
-            for (int i = beginValue; i > 0; i--)
+            BufferedWriter bWriter;
+            if (rawFile)
             {
-                String line = bReader.readLine();
-                bWriter.write(line + "\n");
+                File targetFile = new File(path + targetFileName);
+                bWriter = new BufferedWriter(new FileWriter(targetFile, true));
+                String line;
+                while ((line = bReader.readLine()) != null)
+                {
+                    bWriter.write(line + "\n");
+                }
+
+            } else
+            {
+
+                bReader.mark(1);
+                String firstLine = bReader.readLine();
+                int beginValue = Integer.valueOf(firstLine.split(";")[1]);
+                boolean result;
+                targetFileName = targetFileName.substring(0, targetFileName.length()-4) +
+                        String.valueOf(Validator.CURRENTYEAR) + ".csv";
+                File targetFile = new File(path + targetFileName);
+                result = targetFile.delete();
+                bWriter = new BufferedWriter(new FileWriter(targetFile, true));
+                bReader.reset();
+                for (int i = beginValue; i > 0; i--)
+                {
+                    String line = bReader.readLine();
+                    bWriter.write(line + "\n");
+                }
             }
             bReader.close();
             bWriter.close();
@@ -65,9 +81,15 @@ public class UpdateChecker
         }
     }
 
-    private String readFirstLineOnDisk(String filePath)
+    public boolean checkForRawDataFile(String rawFilePath) {
+        String fileName = DataFileReader.BASEPATH + rawFilePath;
+        File file = new File(fileName);
+        return !file.exists();
+    }
+
+    private String readFirstLineOnDisk(String rawfilePath)
     {
-        File file = new File(filePath);
+        File file = new File(rawfilePath);
         String firstLine = null;
         try
         {
