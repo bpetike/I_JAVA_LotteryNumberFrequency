@@ -1,7 +1,9 @@
 package app;
 
+import drawevent.GameType;
 import gui.MainFrame;
 import gui.UpdateFrame;
+import validator.Validator;
 
 import javax.swing.*;
 

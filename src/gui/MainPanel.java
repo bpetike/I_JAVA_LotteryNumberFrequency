@@ -1,9 +1,12 @@
 package gui;
 
+import controller.Controller;
 import drawevent.GameType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
 /**
@@ -16,9 +19,11 @@ public class MainPanel extends JPanel
     private JLabel gameTypeLabel;
     private JComboBox gameTypeComboBox;
     private JButton submitButton;
+    private Controller controller;
 
     public MainPanel()
     {
+        controller = new Controller();
         yearLabel = new JLabel("Enter a year number: ");
         yearField = new JTextField(4);
         gameTypeLabel = new JLabel("Choose game type: ");
@@ -32,6 +37,17 @@ public class MainPanel extends JPanel
         setLayout(new GridBagLayout());
         GridBagConstraints gc = new GridBagConstraints();
         positionElements(gc);
+
+        submitButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                String year = yearField.getText();
+                String gameType = (String)gameTypeComboBox.getSelectedItem();
+                controller.performTask(year, gameType);
+            }
+        });
 
     }
 
@@ -87,9 +103,9 @@ public class MainPanel extends JPanel
     private void setupComboBox()
     {
         DefaultComboBoxModel gameTypeModel = new DefaultComboBoxModel();
-        gameTypeModel.addElement("5790");
-        gameTypeModel.addElement("6745");
-        gameTypeModel.addElement("7735");
+        gameTypeModel.addElement("5/90");
+        gameTypeModel.addElement("6/45");
+        gameTypeModel.addElement("7/35");
         gameTypeComboBox.setModel(gameTypeModel);
         gameTypeComboBox.setSelectedIndex(0);
     }

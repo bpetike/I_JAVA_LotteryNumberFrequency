@@ -19,7 +19,7 @@ public class Validator
         try
         {
             short parsedYear = Short.parseShort(year);
-            if (parsedYear > gameType.getMinYear() && parsedYear < CURRENTYEAR) {
+            if (parsedYear >= gameType.getMinYear() && parsedYear <= CURRENTYEAR) {
                 return true;
             }
         } catch (NumberFormatException nfe) {
