@@ -8,6 +8,7 @@ import java.awt.*;
  */
 public class MainFrame extends JFrame
 {
+    public static final Dimension SCREENSIZE = new Dimension(Toolkit.getDefaultToolkit().getScreenSize());
     private MainPanel mainPanel;
 
     public MainFrame()
@@ -24,7 +25,7 @@ public class MainFrame extends JFrame
 
     private void positionFrame()
     {
-        Dimension screenSize = new Dimension(Toolkit.getDefaultToolkit().getScreenSize());
+        Dimension screenSize = SCREENSIZE;
         setPreferredSize(new Dimension(350, 100));
         Dimension windowSize = new Dimension(getPreferredSize());
         int wdwLeft = 300 + screenSize.width / 2 - windowSize.width / 2;

@@ -52,7 +52,6 @@ public class UpdateChecker
 
             } else
             {
-
                 bReader.mark(1);
                 String firstLine = bReader.readLine();
                 int beginValue = Integer.valueOf(firstLine.split(";")[1]);
@@ -81,8 +80,7 @@ public class UpdateChecker
     }
 
     public boolean checkForRawDataFile(String rawFilePath) {
-        String fileName = DataFileReader.BASEPATH + rawFilePath;
-        File file = new File(fileName);
+        File file = new File(rawFilePath);
         return !file.exists();
     }
 

@@ -24,7 +24,7 @@ public class ResultFrame extends JFrame
 
     private void positionFrame()
     {
-        Dimension screenSize = new Dimension(Toolkit.getDefaultToolkit().getScreenSize());
+        Dimension screenSize = MainFrame.SCREENSIZE;
         Dimension windowSize = new Dimension(getPreferredSize());
         int wdwLeft = 100 + screenSize.width / 2 - windowSize.width / 2;
         int wdwTop = screenSize.height / 2 - windowSize.height / 2;

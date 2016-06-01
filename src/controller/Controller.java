@@ -1,5 +1,8 @@
 package controller;
 
+import datafilehandler.DataFileReader;
+import datafilehandler.FileSplitter;
+import datafilehandler.UpdateChecker;
 import drawevent.DrawEventHandler;
 import drawevent.GameType;
 import validator.Validator;
@@ -41,5 +44,46 @@ public class Controller
     public Map<Byte, List<Integer>> getResultList()
     {
         return resultList;
+    }
+
+    public  boolean updateFiles()
+    {
+        UpdateChecker uc = new UpdateChecker();
+        FileSplitter fs = new FileSplitter();
+        String basePath = DataFileReader.BASEPATH;
+        String event590RawFilePath = basePath + FileSplitter.EVENT590RAWDATAFILEPATH;
+        String event645RawFilePath = basePath + FileSplitter.EVENT645RAWDATAFILEPATH;
+        String event735RawFilePath = basePath + FileSplitter.EVENT735RAWDATAFILEPATH;
+        boolean event590RawFileExists = uc.checkForRawDataFile(event590RawFilePath);
+        if (uc.checkForRawDataFile(event590RawFilePath))
+        {
+            uc.downloadUpdate(UpdateChecker.EVENT590URL, true);
+            fs.splitRawDataFile(event590RawFilePath);
+
+        }
+        if (uc.checkForRawDataFile(event645RawFilePath))
+        {
+            uc.downloadUpdate(UpdateChecker.EVENT645URL, true);
+            fs.splitRawDataFile(event645RawFilePath);
+        }
+        if (uc.checkForRawDataFile(event735RawFilePath))
+        {
+            uc.downloadUpdate(UpdateChecker.EVENT735URL, true);
+            fs.splitRawDataFile(event735RawFilePath);
+        }
+        if (uc.checkForUpdate(UpdateChecker.EVENT590URL, event590RawFilePath))
+        {
+            uc.downloadUpdate(UpdateChecker.EVENT590URL, false);
+        }
+        if (uc.checkForUpdate(UpdateChecker.EVENT645URL, event645RawFilePath))
+        {
+            uc.downloadUpdate(UpdateChecker.EVENT645URL, false);
+        }
+        if (uc.checkForUpdate(UpdateChecker.EVENT735URL, event735RawFilePath))
+        {
+            uc.downloadUpdate(UpdateChecker.EVENT735URL, false);
+        }
+
+        return true;
     }
 }
