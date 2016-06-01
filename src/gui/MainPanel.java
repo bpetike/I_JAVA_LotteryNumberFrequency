@@ -50,6 +50,9 @@ public class MainPanel extends JPanel
                     ResultFrame resFrame = new ResultFrame(controller.getResultList(), year, gameType);
                     resFrame.setVisible(true);
                 }
+                else {
+                    JOptionPane.showMessageDialog(null, "You entered an invalid year. Please try again.");
+                }
             }
         });
 
