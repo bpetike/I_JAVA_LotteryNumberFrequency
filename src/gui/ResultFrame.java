@@ -2,35 +2,33 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Created by BontaPeter on 2016. 05. 31..
+ * Created by BontaPeter on 2016. 06. 01..
  */
-public class MainFrame extends JFrame
+public class ResultFrame extends JFrame
 {
-    private MainPanel mainPanel;
+    private TablePanel tablePanel;
 
-    public MainFrame()
+    public ResultFrame(Map<Byte, List<Integer>> resultList, String year, String gameType)
     {
         super("Lottery Number Frequency");
-        mainPanel = new MainPanel();
+        tablePanel = new TablePanel(resultList, year, gameType);
         setLayout(new BorderLayout());
-        add(mainPanel, BorderLayout.CENTER);
+        add(tablePanel, BorderLayout.CENTER);
         positionFrame();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setResizable(false);
-        setVisible(true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     private void positionFrame()
     {
         Dimension screenSize = new Dimension(Toolkit.getDefaultToolkit().getScreenSize());
-        setPreferredSize(new Dimension(350, 100));
         Dimension windowSize = new Dimension(getPreferredSize());
-        int wdwLeft = 300 + screenSize.width / 2 - windowSize.width / 2;
+        int wdwLeft = 100 + screenSize.width / 2 - windowSize.width / 2;
         int wdwTop = screenSize.height / 2 - windowSize.height / 2;
         pack();
         setLocation(wdwLeft, wdwTop);
     }
-
 }

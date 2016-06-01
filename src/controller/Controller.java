@@ -23,7 +23,7 @@ public class Controller
         resultList = new HashMap<>();
     }
 
-    public void performTask(String year, String gameType)
+    public boolean performTask(String year, String gameType)
     {
         this.gameType = GameType.getGameType(gameType);
         if (Validator.checkYear(year, this.gameType))
@@ -32,8 +32,14 @@ public class Controller
             DrawEventHandler handler = new DrawEventHandler();
             handler.produceFrequencyList(this.year, this.gameType);
             resultList = handler.getFrequencyList();
+            return true;
         }
+        return false;
     }
 
-    
+
+    public Map<Byte, List<Integer>> getResultList()
+    {
+        return resultList;
+    }
 }

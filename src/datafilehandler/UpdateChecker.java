@@ -1,8 +1,7 @@
-package updatechecker;
+package datafilehandler;
 
 
-import datafilereader.DataFileReader;
-import filesplitter.FileSplitter;
+import datafilehandler.DataFileReader;
 import validator.Validator;
 
 import java.io.BufferedReader;

@@ -45,7 +45,11 @@ public class MainPanel extends JPanel
             {
                 String year = yearField.getText();
                 String gameType = (String)gameTypeComboBox.getSelectedItem();
-                controller.performTask(year, gameType);
+                if (controller.performTask(year, gameType))
+                {
+                    ResultFrame resFrame = new ResultFrame(controller.getResultList(), year, gameType);
+                    resFrame.setVisible(true);
+                }
             }
         });
 

@@ -1,6 +1,6 @@
-package filesplitter;
+package datafilehandler;
 
-import datafilereader.DataFileReader;
+import datafilehandler.DataFileReader;
 import validator.Validator;
 
 import java.io.*;
