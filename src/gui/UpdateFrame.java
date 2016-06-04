@@ -32,7 +32,7 @@ public class UpdateFrame extends JFrame
     private void positionFrame()
     {
         Dimension screenSize = MainFrame.SCREENSIZE;
-        setPreferredSize(new Dimension(340, 50));
+        setPreferredSize(new Dimension(340, 100));
         Dimension windowSize = new Dimension(getPreferredSize());
         int wdwLeft = 200 + screenSize.width / 2 - windowSize.width / 2;
         int wdwTop = screenSize.height / 2 - windowSize.height / 2 - 100;

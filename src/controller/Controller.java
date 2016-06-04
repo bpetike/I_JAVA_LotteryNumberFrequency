@@ -55,18 +55,17 @@ public class Controller
         String event645RawFilePath = basePath + FileSplitter.EVENT645RAWDATAFILEPATH;
         String event735RawFilePath = basePath + FileSplitter.EVENT735RAWDATAFILEPATH;
         boolean event590RawFileExists = uc.checkForRawDataFile(event590RawFilePath);
-        if (uc.checkForRawDataFile(event590RawFilePath))
+        if (uc.checkForRawDataFile(event590RawFilePath) || uc.checkForAllSplitFiles(event590RawFilePath, GameType.OTOS))
         {
             uc.downloadUpdate(UpdateChecker.EVENT590URL, true);
             fs.splitRawDataFile(event590RawFilePath);
 
         }
-        if (uc.checkForRawDataFile(event645RawFilePath))
-        {
+        if (uc.checkForRawDataFile(event645RawFilePath) || uc.checkForAllSplitFiles(event645RawFilePath, GameType.HATOS))        {
             uc.downloadUpdate(UpdateChecker.EVENT645URL, true);
             fs.splitRawDataFile(event645RawFilePath);
         }
-        if (uc.checkForRawDataFile(event735RawFilePath))
+        if (uc.checkForRawDataFile(event735RawFilePath) || uc.checkForAllSplitFiles(event735RawFilePath, GameType.SKANDI))
         {
             uc.downloadUpdate(UpdateChecker.EVENT735URL, true);
             fs.splitRawDataFile(event735RawFilePath);

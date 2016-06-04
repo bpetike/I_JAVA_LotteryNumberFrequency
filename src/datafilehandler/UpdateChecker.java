@@ -2,6 +2,7 @@ package datafilehandler;
 
 
 import datafilehandler.DataFileReader;
+import drawevent.GameType;
 import validator.Validator;
 
 import java.io.BufferedReader;
@@ -14,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 /**
  * Created by BontaPeter on 2016. 05. 29..
@@ -37,12 +39,14 @@ public class UpdateChecker
             InputStream inStream = url.openStream();
             InputStreamReader iStReader = new InputStreamReader(inStream);
             BufferedReader bReader = new BufferedReader(iStReader);
+            boolean result = false;
             String targetFileName = getTargetFileName(fileURL);
             String path = DataFileReader.BASEPATH  + "\\data\\";
             BufferedWriter bWriter;
             if (rawFile)
             {
                 File targetFile = new File(path + targetFileName);
+                result = targetFile.delete();
                 bWriter = new BufferedWriter(new FileWriter(targetFile, true));
                 String line;
                 while ((line = bReader.readLine()) != null)
@@ -55,7 +59,6 @@ public class UpdateChecker
                 bReader.mark(1);
                 String firstLine = bReader.readLine();
                 int beginValue = Integer.valueOf(firstLine.split(";")[1]);
-                boolean result;
                 targetFileName = targetFileName.substring(0, targetFileName.length()-4) +
                         String.valueOf(Validator.CURRENTYEAR) + ".csv";
                 File targetFile = new File(path + targetFileName);
@@ -99,6 +102,28 @@ public class UpdateChecker
         }
         return firstLine;
 
+    }
+
+    public boolean checkForAllSplitFiles(String rawFilePath, GameType gameType)
+    {
+        File rawFile = new File(rawFilePath);
+        String folderPath = rawFile.getParent();
+        String fileName = rawFile.getName();
+        String fileNamePrefix = fileName.substring(0, fileName.length() - 4);
+        File[] files = new File(folderPath).listFiles();
+        int counter = 0;
+        if (files != null)
+        {
+            for (File file : files)
+            {
+                if (file.getName().contains(fileNamePrefix))
+                {
+                    counter++;
+                }
+            }
+        }
+        int difference = Validator.CURRENTYEAR - gameType.getMinYear() + 1;
+        return difference != counter - 1;
     }
 
     private String readFirstLineOnInternet(String fileURL)
