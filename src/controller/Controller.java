@@ -7,7 +7,7 @@ import drawevent.DrawEventHandler;
 import drawevent.GameType;
 import validator.Validator;
 
-import java.util.Arrays;
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +51,7 @@ public class Controller
         UpdateChecker uc = new UpdateChecker();
         FileSplitter fs = new FileSplitter();
         String basePath = DataFileReader.BASEPATH;
+        makeDataFolderIfNotExists(basePath);
         String event590RawFilePath = basePath + FileSplitter.EVENT590RAWDATAFILEPATH;
         String event645RawFilePath = basePath + FileSplitter.EVENT645RAWDATAFILEPATH;
         String event735RawFilePath = basePath + FileSplitter.EVENT735RAWDATAFILEPATH;
@@ -84,5 +85,14 @@ public class Controller
         }
 
         return true;
+    }
+
+    private void makeDataFolderIfNotExists(String basePath)
+    {
+        File dataFolder = new File(basePath + "\\data\\");
+        if (!dataFolder.exists())
+        {
+            boolean newFile = dataFolder.mkdir();
+        }
     }
 }
