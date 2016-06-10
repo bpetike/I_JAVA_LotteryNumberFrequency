@@ -28,20 +28,7 @@ public class FileSplitter
             int year = Validator.CURRENTYEAR;
             String yearString = String.valueOf(year);
             String targetFile;
-            while ((line = bReader.readLine()) != null)
-            {
-                String[] splitedLine = line.split(";");
-                targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(rawFilePath) + yearString + ".csv";
-                if (splitedLine[0].equals(yearString)) {
-                    writeLine(targetFile, line);
-                } else
-                {
-                    yearString = String.valueOf(--year);
-                    targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(rawFilePath) + yearString + ".csv";
-                    writeLine(targetFile, line);
-                }
-            }
-
+            writeToFile(rawFilePath, bReader, year, yearString);
             bReader.close();
         } catch (FileNotFoundException fnfe)
         {
@@ -53,6 +40,25 @@ public class FileSplitter
             ioe.printStackTrace();
         }
 
+    }
+
+    private void writeToFile(String rawFilePath, BufferedReader bReader, int year, String yearString) throws IOException
+    {
+        String line;
+        String targetFile;
+        while ((line = bReader.readLine()) != null)
+        {
+            String[] splitedLine = line.split(";");
+            targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(rawFilePath) + yearString + ".csv";
+            if (splitedLine[0].equals(yearString)) {
+                writeLine(targetFile, line);
+            } else
+            {
+                yearString = String.valueOf(--year);
+                targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(rawFilePath) + yearString + ".csv";
+                writeLine(targetFile, line);
+            }
+        }
     }
 
     private void writeLine(String fileName, String line) throws IOException

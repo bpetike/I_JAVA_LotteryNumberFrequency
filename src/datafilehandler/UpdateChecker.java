@@ -45,31 +45,11 @@ public class UpdateChecker
             BufferedWriter bWriter;
             if (rawFile)
             {
-                File targetFile = new File(path + targetFileName);
-                result = targetFile.delete();
-                bWriter = new BufferedWriter(new FileWriter(targetFile, true));
-                String line;
-                while ((line = bReader.readLine()) != null)
-                {
-                    bWriter.write(line + "\n");
-                }
+                bWriter = updateRawFile(bReader, targetFileName, path);
 
             } else
             {
-                bReader.mark(1);
-                String firstLine = bReader.readLine();
-                int beginValue = Integer.valueOf(firstLine.split(";")[1]);
-                targetFileName = targetFileName.substring(0, targetFileName.length()-4) +
-                        String.valueOf(Validator.CURRENTYEAR) + ".csv";
-                File targetFile = new File(path + targetFileName);
-                result = targetFile.delete();
-                bWriter = new BufferedWriter(new FileWriter(targetFile, true));
-                bReader.reset();
-                for (int i = beginValue; i > 0; i--)
-                {
-                    String line = bReader.readLine();
-                    bWriter.write(line + "\n");
-                }
+                bWriter = updateSplitFile(bReader, targetFileName, path);
             }
             bReader.close();
             bWriter.close();
@@ -80,6 +60,41 @@ public class UpdateChecker
         {
             System.out.println("Cannot open stream. " + ioe.getMessage());
         }
+    }
+
+    private BufferedWriter updateSplitFile(BufferedReader bReader, String targetFileName, String path) throws IOException
+    {
+        boolean result;
+        BufferedWriter bWriter;
+        bReader.mark(1);
+        String firstLine = bReader.readLine();
+        int beginValue = Integer.valueOf(firstLine.split(";")[1]);
+        targetFileName = targetFileName.substring(0, targetFileName.length()-4) +
+                String.valueOf(Validator.CURRENTYEAR) + ".csv";
+        File targetFile = new File(path + targetFileName);
+        result = targetFile.delete();
+        bWriter = new BufferedWriter(new FileWriter(targetFile, true));
+        bReader.reset();
+        for (int i = beginValue; i > 0; i--)
+        {
+            String line = bReader.readLine();
+            bWriter.write(line + "\n");
+        }
+        return bWriter;
+    }
+
+    private BufferedWriter updateRawFile(BufferedReader bReader, String targetFileName, String path) throws IOException
+    {
+        boolean result;
+        BufferedWriter bWriter;File targetFile = new File(path + targetFileName);
+        result = targetFile.delete();
+        bWriter = new BufferedWriter(new FileWriter(targetFile, true));
+        String line;
+        while ((line = bReader.readLine()) != null)
+        {
+            bWriter.write(line + "\n");
+        }
+        return bWriter;
     }
 
     public boolean checkForRawDataFile(String rawFilePath) {
