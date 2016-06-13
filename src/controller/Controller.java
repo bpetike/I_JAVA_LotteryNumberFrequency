@@ -2,7 +2,7 @@ package controller;
 
 import datafilehandler.DataFileReader;
 import datafilehandler.FileSplitter;
-import datafilehandler.UpdateChecker;
+import datafilehandler.Updater;
 import drawevent.DrawEventHandler;
 import drawevent.GameType;
 import validator.Validator;
@@ -21,6 +21,8 @@ public class Controller
     private short year;
     private GameType gameType;
     private Map<Byte, List<Integer>> resultList;
+    private Updater updater;
+    private FileSplitter splitter;
 
     public Controller()
     {
@@ -67,47 +69,50 @@ public class Controller
 
     public  boolean updateFiles()
     {
-        UpdateChecker uc = new UpdateChecker();
-        FileSplitter fs = new FileSplitter();
+        updater = new Updater();
+        splitter = new FileSplitter();
         String basePath = DataFileReader.BASEPATH;
         makeDataFolderIfNotExists(basePath);
         String event590RawFilePath = basePath + FileSplitter.EVENT590RAWDATAFILEPATH;
         String event645RawFilePath = basePath + FileSplitter.EVENT645RAWDATAFILEPATH;
         String event735RawFilePath = basePath + FileSplitter.EVENT735RAWDATAFILEPATH;
-        boolean event590RawFileExists = uc.checkForRawDataFile(event590RawFilePath);
-        performUpdate(uc, fs, event590RawFilePath, event645RawFilePath, event735RawFilePath);
+        boolean event590RawFileExists = updater.checkForRawDataFile(event590RawFilePath);
+        if (updater != null && splitter != null)
+        {
+            performUpdate(event590RawFilePath, event645RawFilePath, event735RawFilePath);
+        }
 
         return true;
     }
 
-    private void performUpdate(UpdateChecker uc, FileSplitter fs, String event590RawFilePath, String event645RawFilePath, String event735RawFilePath)
+    private void performUpdate(String event590RawFilePath, String event645RawFilePath, String event735RawFilePath)
     {
-        if (uc.checkForRawDataFile(event590RawFilePath) || uc.checkForAllSplitFiles(event590RawFilePath, GameType.OTOS))
+        if (updater.checkForRawDataFile(event590RawFilePath) || updater.checkForAllSplitFiles(event590RawFilePath, GameType.OTOS))
         {
-            uc.downloadUpdate(UpdateChecker.EVENT590URL, true);
-            fs.splitRawDataFile(event590RawFilePath);
+            updater.downloadUpdate(Updater.EVENT590URL, true);
+            splitter.splitRawDataFile(event590RawFilePath);
 
         }
-        if (uc.checkForRawDataFile(event645RawFilePath) || uc.checkForAllSplitFiles(event645RawFilePath, GameType.HATOS))        {
-            uc.downloadUpdate(UpdateChecker.EVENT645URL, true);
-            fs.splitRawDataFile(event645RawFilePath);
+        if (updater.checkForRawDataFile(event645RawFilePath) || updater.checkForAllSplitFiles(event645RawFilePath, GameType.HATOS))        {
+            updater.downloadUpdate(Updater.EVENT645URL, true);
+            splitter.splitRawDataFile(event645RawFilePath);
         }
-        if (uc.checkForRawDataFile(event735RawFilePath) || uc.checkForAllSplitFiles(event735RawFilePath, GameType.SKANDI))
+        if (updater.checkForRawDataFile(event735RawFilePath) || updater.checkForAllSplitFiles(event735RawFilePath, GameType.SKANDI))
         {
-            uc.downloadUpdate(UpdateChecker.EVENT735URL, true);
-            fs.splitRawDataFile(event735RawFilePath);
+            updater.downloadUpdate(Updater.EVENT735URL, true);
+            splitter.splitRawDataFile(event735RawFilePath);
         }
-        if (uc.checkForUpdate(UpdateChecker.EVENT590URL, event590RawFilePath))
+        if (updater.checkForUpdate(Updater.EVENT590URL, event590RawFilePath))
         {
-            uc.downloadUpdate(UpdateChecker.EVENT590URL, false);
+            updater.downloadUpdate(Updater.EVENT590URL, false);
         }
-        if (uc.checkForUpdate(UpdateChecker.EVENT645URL, event645RawFilePath))
+        if (updater.checkForUpdate(Updater.EVENT645URL, event645RawFilePath))
         {
-            uc.downloadUpdate(UpdateChecker.EVENT645URL, false);
+            updater.downloadUpdate(Updater.EVENT645URL, false);
         }
-        if (uc.checkForUpdate(UpdateChecker.EVENT735URL, event735RawFilePath))
+        if (updater.checkForUpdate(Updater.EVENT735URL, event735RawFilePath))
         {
-            uc.downloadUpdate(UpdateChecker.EVENT735URL, false);
+            updater.downloadUpdate(Updater.EVENT735URL, false);
         }
     }
 

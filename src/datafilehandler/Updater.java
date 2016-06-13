@@ -21,7 +21,7 @@ import java.util.Arrays;
  * Created by BontaPeter on 2016. 05. 29..
  * This class downloads the updated data files.
  */
-public class UpdateChecker
+public class Updater
 {
     public static final String EVENT590URL = "http://www.szerencsejatek.hu/xls/otos.csv";
     public static final String EVENT645URL = "http://www.szerencsejatek.hu/xls/hatos.csv";
