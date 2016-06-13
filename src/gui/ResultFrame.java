@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * Created by BontaPeter on 2016. 06. 01..
+ * This frame displays the result list.
  */
 public class ResultFrame extends JFrame
 {

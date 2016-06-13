@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * Created by BontaPeter on 2016. 05. 31..
+ * This class is the controller class of the graphical user interface.
  */
 public class Controller
 {
@@ -25,6 +26,14 @@ public class Controller
     {
         resultList = new HashMap<>();
     }
+
+    /**
+     * This method performs the event collecting and the production of frequency list, which will be
+     * displayed to the user.
+     * @param year String - This is the year number from the user input
+     * @param gameType String - The game type given by the user
+     * @return boolean - Returns true if the production of the frequency list succeeds.
+     */
 
     public boolean performTask(String year, String gameType)
     {
@@ -41,10 +50,20 @@ public class Controller
     }
 
 
+    /**
+     * This method is used on the main frame to get the produced freqency list.
+     * @return HashMap with byte keys and list of intergers as values.
+     */
+
     public Map<Byte, List<Integer>> getResultList()
     {
         return resultList;
     }
+
+    /**
+     * This method is used on the update frame to update the data files.
+     * @return boolean - Returns true when the update is complete.
+     */
 
     public  boolean updateFiles()
     {
@@ -56,6 +75,13 @@ public class Controller
         String event645RawFilePath = basePath + FileSplitter.EVENT645RAWDATAFILEPATH;
         String event735RawFilePath = basePath + FileSplitter.EVENT735RAWDATAFILEPATH;
         boolean event590RawFileExists = uc.checkForRawDataFile(event590RawFilePath);
+        performUpdate(uc, fs, event590RawFilePath, event645RawFilePath, event735RawFilePath);
+
+        return true;
+    }
+
+    private void performUpdate(UpdateChecker uc, FileSplitter fs, String event590RawFilePath, String event645RawFilePath, String event735RawFilePath)
+    {
         if (uc.checkForRawDataFile(event590RawFilePath) || uc.checkForAllSplitFiles(event590RawFilePath, GameType.OTOS))
         {
             uc.downloadUpdate(UpdateChecker.EVENT590URL, true);
@@ -83,8 +109,6 @@ public class Controller
         {
             uc.downloadUpdate(UpdateChecker.EVENT735URL, false);
         }
-
-        return true;
     }
 
     private void makeDataFolderIfNotExists(String basePath)

@@ -26,11 +26,26 @@ public class UpdateChecker
     public static final String EVENT590URL = "http://www.szerencsejatek.hu/xls/otos.csv";
     public static final String EVENT645URL = "http://www.szerencsejatek.hu/xls/hatos.csv";
     public static final String EVENT735URL = "http://www.szerencsejatek.hu/xls/skandi.csv";
+    private final int EXTENSION_LENGTH = 4;
+
+    /**
+     * This method checks for a data file needs to be updated.
+     * @param fileURL - the URL of a raw data file on the internet
+     * @param rawfilePath - the path of a raw data file
+     * @return boolean - return true if update is available, false if the files are up to date
+     */
 
     public boolean checkForUpdate(String fileURL, String rawfilePath)
     {
         return !readFirstLineOnInternet(fileURL).equals(readFirstLineOnDisk(rawfilePath));
     }
+
+    /**
+     * This method downloads the update from the internet.
+     * @param fileURL - the URL of the raw data file on the internet
+     * @param rawFile - if true, the method downloads a raw data file,
+     *                if false, the method downloads only the updated data
+     */
 
     public void downloadUpdate(String fileURL, boolean rawFile) {
         try
@@ -62,6 +77,46 @@ public class UpdateChecker
         }
     }
 
+    /**
+     * This method checks if a raw data file is present in the data folder.
+     * @param rawFilePath - the path of the raw data file
+     * @return boolean - returns true, if the raw data file is present in the folder, otherwise false
+     */
+
+    public boolean checkForRawDataFile(String rawFilePath) {
+        File file = new File(rawFilePath);
+        return !file.exists();
+    }
+
+    /**
+     * This method checks if a raw data file has all its split files present in the data folder.
+     * @param rawFilePath - the path for a raw data file
+     * @param gameType - a game type is needed to define the number of split files
+     * @return boolean - returns true if all split data files are present, otherwise false
+     */
+
+    public boolean checkForAllSplitFiles(String rawFilePath, GameType gameType)
+    {
+        File rawFile = new File(rawFilePath);
+        String folderPath = rawFile.getParent();
+        String fileName = rawFile.getName();
+        String fileNamePrefix = fileName.substring(0, fileName.length() - EXTENSION_LENGTH);
+        File[] files = new File(folderPath).listFiles();
+        int counter = 0;
+        if (files != null)
+        {
+            for (File file : files)
+            {
+                if (file.getName().contains(fileNamePrefix))
+                {
+                    counter++;
+                }
+            }
+        }
+        int difference = Validator.CURRENTYEAR - gameType.getMinYear() + 1;
+        return difference != counter - 1;
+    }
+
     private BufferedWriter updateSplitFile(BufferedReader bReader, String targetFileName, String path) throws IOException
     {
         boolean result;
@@ -69,7 +124,7 @@ public class UpdateChecker
         bReader.mark(1);
         String firstLine = bReader.readLine();
         int beginValue = Integer.valueOf(firstLine.split(";")[1]);
-        targetFileName = targetFileName.substring(0, targetFileName.length()-4) +
+        targetFileName = targetFileName.substring(0, targetFileName.length() - EXTENSION_LENGTH) +
                 String.valueOf(Validator.CURRENTYEAR) + ".csv";
         File targetFile = new File(path + targetFileName);
         result = targetFile.delete();
@@ -97,11 +152,6 @@ public class UpdateChecker
         return bWriter;
     }
 
-    public boolean checkForRawDataFile(String rawFilePath) {
-        File file = new File(rawFilePath);
-        return !file.exists();
-    }
-
     private String readFirstLineOnDisk(String rawfilePath)
     {
         File file = new File(rawfilePath);
@@ -119,28 +169,6 @@ public class UpdateChecker
 
     }
 
-    public boolean checkForAllSplitFiles(String rawFilePath, GameType gameType)
-    {
-        File rawFile = new File(rawFilePath);
-        String folderPath = rawFile.getParent();
-        String fileName = rawFile.getName();
-        String fileNamePrefix = fileName.substring(0, fileName.length() - 4);
-        File[] files = new File(folderPath).listFiles();
-        int counter = 0;
-        if (files != null)
-        {
-            for (File file : files)
-            {
-                if (file.getName().contains(fileNamePrefix))
-                {
-                    counter++;
-                }
-            }
-        }
-        int difference = Validator.CURRENTYEAR - gameType.getMinYear() + 1;
-        return difference != counter - 1;
-    }
-
     private String readFirstLineOnInternet(String fileURL)
     {
         String firstLine = null;
@@ -154,7 +182,7 @@ public class UpdateChecker
             bReader.close();
         } catch (MalformedURLException mfue)
         {
-            System.out.println("There is something fishy with the URL. " + mfue.getMessage());
+            System.out.println("There is something wrong with the URL. " + mfue.getMessage());
         } catch (IOException ioe)
         {
             System.out.println("Cannot open stream. " + ioe.getMessage());
@@ -164,6 +192,7 @@ public class UpdateChecker
 
     private String getTargetFileName(String fileURL) {
         String[] urlParts = fileURL.split("/");
-        return urlParts[4];
+        int URL_LAST_PART_INDEX = 4;
+        return urlParts[URL_LAST_PART_INDEX];
     }
 }

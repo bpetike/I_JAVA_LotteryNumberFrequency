@@ -27,27 +27,20 @@ public class DrawEventHandler
 
     }
 
+    /**
+     * This method returns the frequency list of lottery numbers
+     * @return HashMap<Byte, List<Integer>> - a map of lottery numbers as keys and list of week numbers as values
+     */
     public HashMap<Byte, List<Integer>> getFrequencyList()
     {
         return frequencyList;
     }
 
-    private List<DrawEvent> collectDrawEvents(short year, GameType gameType)
-    {
-        List<String> lines = DataFileReader.readLines(year, gameType);
-        if (lines != null && lines.size() > 0)
-        {
-            for (String line : lines)
-            {
-                DrawEvent event = eventCreator.getEvent(gameType);
-                event.parse(line);
-                collectedEvents.add(event);
-            }
-        }
-        Collections.sort(collectedEvents);
-        return collectedEvents;
-    }
-
+    /**
+     * This method creates the frequency list of lottery numbers
+     * @param year - a chosen year number
+     * @param gameType - a chosen game type
+     */
     public void produceFrequencyList(short year, GameType gameType)
     {
         collectDrawEvents(year, gameType);
@@ -70,5 +63,21 @@ public class DrawEventHandler
                 frequencyList.put(i, weeks);
             }
         }
+    }
+
+    private List<DrawEvent> collectDrawEvents(short year, GameType gameType)
+    {
+        List<String> lines = DataFileReader.readLines(year, gameType);
+        if (lines != null && lines.size() > 0)
+        {
+            for (String line : lines)
+            {
+                DrawEvent event = eventCreator.getEvent(gameType);
+                event.parse(line);
+                collectedEvents.add(event);
+            }
+        }
+        Collections.sort(collectedEvents);
+        return collectedEvents;
     }
 }

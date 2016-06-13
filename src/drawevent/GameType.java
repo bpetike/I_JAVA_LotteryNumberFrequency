@@ -22,6 +22,11 @@ public enum GameType
         this.maxNumber = maxNumber;
     }
 
+    /**
+     * This method returns a GameType value based on a String name
+     * @param name - the name of a game type
+     * @return GameType - a specific value of GameType enum
+     */
     public static GameType getGameType(String name) {
         for (GameType gt : GameType.values())
         {
@@ -32,16 +37,28 @@ public enum GameType
         return null;
     }
 
+    /**
+     * This method returns the minimum year of a GameType value
+     * @return int - the minimum year of a game type
+     */
     public int getMinYear()
     {
         return minYear;
     }
 
+    /**
+     * This method returns the maximum available number of a GameType value
+     * @return int - the maxumim number that can be drawn
+     */
     public int getMaxNumber()
     {
         return maxNumber;
     }
 
+    /**
+     * This method returns how many numbers can be drawn at a GameType value
+     * @return int - the amount of numbers can be drawn
+     */
     public int getDrawnNumbers()
     {
         return drawnNumbers;

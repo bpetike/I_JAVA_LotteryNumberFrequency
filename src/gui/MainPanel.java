@@ -11,6 +11,7 @@ import java.util.Vector;
 
 /**
  * Created by BontaPeter on 2016. 05. 31..
+ * This panel is on the main frame.
  */
 public class MainPanel extends JPanel
 {

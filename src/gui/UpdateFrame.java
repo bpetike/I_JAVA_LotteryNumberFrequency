@@ -7,6 +7,7 @@ import java.awt.*;
 
 /**
  * Created by BontaPeter on 2016. 05. 31..
+ * This frame appears at first after launching the application.
  */
 public class UpdateFrame extends JFrame
 {

@@ -2,11 +2,16 @@ package drawevent;
 
 /**
  * Created by BontaPeter on 2016. 05. 17..
- * This is the abstract class of draw events.
+ * This class is responsible for creating specific DrawEvent objects based on the game type.
  */
 public class DrawEventCreator
 {
 
+    /**
+     * This method creates specific DrawEvent objects based on the game type.
+     * @param gameType - the chosen game type
+     * @return DrawEvent - the corresponding DraWevent object to the game type
+     */
     public DrawEvent getEvent(GameType gameType) {
         if (gameType == null) {
             return null;

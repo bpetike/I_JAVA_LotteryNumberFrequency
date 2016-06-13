@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by BontaPeter on 2016. 06. 01..
+ * The result frame contains this panel.
  */
 public class TablePanel extends JPanel
 {

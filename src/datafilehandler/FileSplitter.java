@@ -7,13 +7,18 @@ import java.io.*;
 
 /**
  * Created by BontaPeter on 2016. 05. 17..
- * This class is responsible for splitting raw data files if necessary.
+ * This class is responsible for splitting raw data files.
  */
 public class FileSplitter
 {
     public static final String EVENT590RAWDATAFILEPATH = "\\data\\otos.csv";
     public static final String EVENT645RAWDATAFILEPATH = "\\data\\hatos.csv";
     public static final String EVENT735RAWDATAFILEPATH = "\\data\\skandi.csv";
+
+    /**
+     * This method splits a raw data file given by its path into separate files by year.
+     * @param rawFilePath - the path of the file to be split
+     */
 
     public void splitRawDataFile(String rawFilePath)
     {

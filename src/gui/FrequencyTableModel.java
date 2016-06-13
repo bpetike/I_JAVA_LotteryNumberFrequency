@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * Created by BontaPeter on 2016. 06. 01..
+ * The table model of the result frame.
  */
 public class FrequencyTableModel extends AbstractTableModel
 {

@@ -5,6 +5,7 @@ import java.awt.*;
 
 /**
  * Created by BontaPeter on 2016. 05. 31..
+ * This is the main frame of the application.
  */
 public class MainFrame extends JFrame
 {
