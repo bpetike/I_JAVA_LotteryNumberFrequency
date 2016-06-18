@@ -56,7 +56,7 @@ public class Updater
             BufferedReader bReader = new BufferedReader(iStReader);
             boolean result = false;
             String targetFileName = getTargetFileName(fileURL);
-            String path = DataFileReader.BASEPATH  + "\\data\\";
+            String path = DataFileReader.BASEPATH  + File.pathSeparator + "data" + File.pathSeparator;
             BufferedWriter bWriter;
             if (rawFile)
             {
@@ -70,7 +70,7 @@ public class Updater
             bWriter.close();
         } catch (MalformedURLException mfue)
         {
-            System.out.println("There is something fishy with the URL. " + mfue.getMessage());
+            System.out.println("There is something wrong with the URL. " + mfue.getMessage());
         } catch (IOException ioe)
         {
             System.out.println("Cannot open stream. " + ioe.getMessage());

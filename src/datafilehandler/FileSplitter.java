@@ -11,9 +11,12 @@ import java.io.*;
  */
 public class FileSplitter
 {
-    public static final String EVENT590RAWDATAFILEPATH = "\\data\\otos.csv";
-    public static final String EVENT645RAWDATAFILEPATH = "\\data\\hatos.csv";
-    public static final String EVENT735RAWDATAFILEPATH = "\\data\\skandi.csv";
+    public static final String EVENT590RAWDATAFILEPATH =
+            File.pathSeparator + "data"+ File.pathSeparator + "otos.csv";
+    public static final String EVENT645RAWDATAFILEPATH =
+            File.pathSeparator + "data"+ File.pathSeparator + "hatos.csv";
+    public static final String EVENT735RAWDATAFILEPATH =
+            File.pathSeparator + "data"+ File.pathSeparator + "skandi.csv";
 
     /**
      * This method splits a raw data file given by its path into separate files by year.
@@ -51,16 +54,17 @@ public class FileSplitter
     {
         String line;
         String targetFile;
+        String dataFolderName = File.pathSeparator + "data" + File.pathSeparator;
         while ((line = bReader.readLine()) != null)
         {
             String[] splitedLine = line.split(";");
-            targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(rawFilePath) + yearString + ".csv";
+            targetFile = DataFileReader.BASEPATH + dataFolderName + getFileName(rawFilePath) + yearString + ".csv";
             if (splitedLine[0].equals(yearString)) {
                 writeLine(targetFile, line);
             } else
             {
                 yearString = String.valueOf(--year);
-                targetFile = DataFileReader.BASEPATH + "\\data\\" + getFileName(rawFilePath) + yearString + ".csv";
+                targetFile = DataFileReader.BASEPATH + dataFolderName + getFileName(rawFilePath) + yearString + ".csv";
                 writeLine(targetFile, line);
             }
         }
@@ -79,12 +83,13 @@ public class FileSplitter
         File file = new File(filePath);
         String fileName = file.getName();
         int fileNameLength = fileName.length();
-        return fileName.substring(0, fileNameLength-4);
+        int EXTENSION_LENGTH = 4;
+        return fileName.substring(0, fileNameLength - EXTENSION_LENGTH);
     }
 
     private void deleteExistingDataFiles(String filePath)
     {
-        File path = new File(DataFileReader.BASEPATH + "\\data\\");
+        File path = new File(DataFileReader.BASEPATH + File.pathSeparator + "data" + File.pathSeparator);
         File[] files = path.listFiles();
         String fileNamePrefix = getFileName(filePath);
         if (files != null)
