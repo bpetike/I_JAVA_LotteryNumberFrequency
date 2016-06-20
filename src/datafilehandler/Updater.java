@@ -56,7 +56,7 @@ public class Updater
             BufferedReader bReader = new BufferedReader(iStReader);
             boolean result = false;
             String targetFileName = getTargetFileName(fileURL);
-            String path = DataFileReader.BASEPATH  + File.pathSeparator + "data" + File.pathSeparator;
+            String path = DataFileReader.BASEPATH  + File.separator + "data" + File.separator;
             BufferedWriter bWriter;
             if (rawFile)
             {

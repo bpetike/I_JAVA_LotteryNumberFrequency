@@ -26,7 +26,7 @@ public class DataFileReader
      */
 
     public static List<String> readLines(int year, GameType gameType) {
-        String dataFolderName = File.pathSeparator + "data" + File.pathSeparator;
+        String dataFolderName = File.separator + "data" + File.separator;
         String filePath = BASEPATH + dataFolderName + gameType.toString().toLowerCase() + String.valueOf(year) + ".csv";
         File file = new File(filePath);
         List<String> lines = new ArrayList<>();

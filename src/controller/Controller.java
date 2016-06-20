@@ -118,7 +118,7 @@ public class Controller
 
     private void makeDataFolderIfNotExists(String basePath)
     {
-        File dataFolder = new File(basePath + File.pathSeparator + "data" + File.pathSeparator);
+        File dataFolder = new File(basePath + File.separator + "data" + File.separator);
         if (!dataFolder.exists())
         {
             boolean newFile = dataFolder.mkdir();

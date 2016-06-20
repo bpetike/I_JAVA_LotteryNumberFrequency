@@ -12,11 +12,11 @@ import java.io.*;
 public class FileSplitter
 {
     public static final String EVENT590RAWDATAFILEPATH =
-            File.pathSeparator + "data"+ File.pathSeparator + "otos.csv";
+            File.separator + "data"+ File.separator + "otos.csv";
     public static final String EVENT645RAWDATAFILEPATH =
-            File.pathSeparator + "data"+ File.pathSeparator + "hatos.csv";
+            File.separator + "data"+ File.separator + "hatos.csv";
     public static final String EVENT735RAWDATAFILEPATH =
-            File.pathSeparator + "data"+ File.pathSeparator + "skandi.csv";
+            File.separator + "data"+ File.separator + "skandi.csv";
 
     /**
      * This method splits a raw data file given by its path into separate files by year.
@@ -54,7 +54,7 @@ public class FileSplitter
     {
         String line;
         String targetFile;
-        String dataFolderName = File.pathSeparator + "data" + File.pathSeparator;
+        String dataFolderName = File.separator + "data" + File.separator;
         while ((line = bReader.readLine()) != null)
         {
             String[] splitedLine = line.split(";");
@@ -89,7 +89,7 @@ public class FileSplitter
 
     private void deleteExistingDataFiles(String filePath)
     {
-        File path = new File(DataFileReader.BASEPATH + File.pathSeparator + "data" + File.pathSeparator);
+        File path = new File(DataFileReader.BASEPATH + File.separator + "data" + File.separator);
         File[] files = path.listFiles();
         String fileNamePrefix = getFileName(filePath);
         if (files != null)
