@@ -12,14 +12,14 @@ Before the user can enter the year number and the game type, the application che
 
 [Requrement list](https://docs.google.com/document/d/1GfDK9ZH1mLxhHqwcxIZKMkueZ_bpOcmpZIcaggfgTow/edit?usp=sharing)
 
-[Planned main view](https://docs.google.com/drawings/d/1RyYtSX6evKrfIAP9C1oAcd5an0YBcF2_NMz9wAE4pAw/edit?usp=sharing)
+[Planned main view](https://www.dropbox.com/s/flh0g8vtcme1jwb/Lottery%20Number%20Frequency%20-%20GUI%20design-%20Input%20screen.jpg?dl=0)
 
-[Planned result list view](https://docs.google.com/drawings/d/1muUCEJN5LHfjN9f1bH9IQlPea3hIXT5SsRvUJzk_SCQ/edit?usp=sharing)
+[Planned result list view](https://www.dropbox.com/s/8wglnr5sf3jzk0x/Lottery%20Number%20Frequency%20-%20GUI%20design-%20Result.jpg?dl=0)
 
-![IPO diagram](https://dl.dropboxusercontent.com/u/920509/LNF_IPODiagram.jpeg)
+![IPO diagram](https://www.dropbox.com/s/mc810ttjsznuc07/LNF_IPODiagram.jpeg?dl=0)
 
-![Data flow diagram](https://dl.dropboxusercontent.com/u/920509/LNF_DataFlowDiagram.jpeg)
+![Data flow diagram](https://www.dropbox.com/s/5q68gcskj1vr9ea/LNF_DataFlowDiagram.jpeg?dl=0)
 
-![Use case diagram](https://dl.dropboxusercontent.com/u/920509/LNF_UseCase.jpeg)
+![Use case diagram](https://www.dropbox.com/s/vr3xgo63ks2c8d5/LNF_UseCase.jpeg?dl=0)
 
-![Class diagram](https://dl.dropboxusercontent.com/u/920509/LNF_ClassDiagram.jpeg)
+![Class diagram](https://www.dropbox.com/s/rodn64oejl0g7ty/LNF_ClassDiagram.jpeg?dl=0)
